@@ -15,7 +15,7 @@ import cn.edu.gdmec.android.boxuegu.utils.AnalysisUtils;
 public class ActivitySettingActivity extends Activity implements View.OnClickListener{
 
 
-    public static ActivitySettingActivity instance = null;
+
     private TextView tv_back;
     private TextView tv_main_title;
     private TextView tv_save;
@@ -23,14 +23,14 @@ public class ActivitySettingActivity extends Activity implements View.OnClickLis
     private RelativeLayout rl_modify_psw;
     private RelativeLayout rl_security_setting;
     private RelativeLayout rl_exit_login;
+    public static ActivitySettingActivity instance = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-        instance=this;
         initView();
-
+instance = this;
 
     }
 
@@ -53,26 +53,30 @@ public class ActivitySettingActivity extends Activity implements View.OnClickLis
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()){
+    public void onClick(View view) {
+        switch (view.getId()){
             case R.id.tv_back:
                 ActivitySettingActivity.this.finish();
                 break;
             case R.id.rl_modify_psw:
                 //修改密码界面
-                Intent intent=new Intent(ActivitySettingActivity.this,ActivityModifyPswActivity.class);
+                Intent intent = new Intent(ActivitySettingActivity.this,ActivityModifyPswActivity.class);
                 startActivity(intent);
+                break;
+            case R.id.rl_security_setting:
+                Intent intent2 = new Intent(ActivitySettingActivity.this,ActivityFindPswActivity.class);
+                intent2.putExtra("from","security");
+                startActivity(intent2);
                 break;
             case R.id.rl_exit_login:
                 Toast.makeText(this,"退出登录成功",Toast.LENGTH_SHORT).show();
                 AnalysisUtils.clearLoginStatus(this);
-                Intent data=new Intent();
-                data.putExtra("islogin",false);
-                setResult(RESULT_OK,data);
+                Intent data = new Intent();
+                data.putExtra("isLogin",false);
+                setResult(RESULT_OK);
                 finish();
+                MainActivity.instance.finish();
                 break;
         }
     }
-
-
 }

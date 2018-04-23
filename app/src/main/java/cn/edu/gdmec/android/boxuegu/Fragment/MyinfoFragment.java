@@ -14,10 +14,12 @@ import android.widget.Toast;
 
 import cn.edu.gdmec.android.boxuegu.R;
 import cn.edu.gdmec.android.boxuegu.activity.ActivitySettingActivity;
+import cn.edu.gdmec.android.boxuegu.activity.ActivityUserInfoActivity;
 import cn.edu.gdmec.android.boxuegu.activity.LoginActivity;
+//import cn.edu.gdmec.android.boxuegu.activity.UserInfoActivity;
 import cn.edu.gdmec.android.boxuegu.utils.AnalysisUtils;
 
-public class MyinfoFragment extends Fragment implements View.OnClickListener {
+public class MyinfoFragment extends Fragment implements View.OnClickListener{
 
     private LinearLayout llHead;
     private ImageView ivHeadIcon;
@@ -45,10 +47,11 @@ public class MyinfoFragment extends Fragment implements View.OnClickListener {
         rlSetting = (RelativeLayout) view.findViewById(R.id.rl_setting);
         ivUserinfoIcon = (ImageView) view.findViewById(R.id.iv_userinfo_icon);
 
-        if (AnalysisUtils.readLoginStatus(getActivity())){
+        if(AnalysisUtils.readLoginStatus(getActivity())){
             tvUserName.setText(AnalysisUtils.readLoginUserName(getActivity()));
-        }else {
-            tvUserName.setText("点击登录");
+
+        }else{
+            tvUserName.setText("点击登陆");
         }
 
         llHead.setOnClickListener(this);
@@ -58,28 +61,32 @@ public class MyinfoFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch(view.getId()){
             case R.id.ll_head:
-                if (AnalysisUtils.readLoginStatus(getActivity())){
-
-                }else {
+                if(AnalysisUtils.readLoginStatus(getActivity())){
+                    //跳转到个人资料界面
+                    Intent intent = new Intent(getActivity(), ActivityUserInfoActivity.class);
+                    getActivity().startActivity(intent);
+                }else{
+                    //跳转到登录界面
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     getActivity().startActivityForResult(intent,1);
                 }
-            break;
+                break;
             case R.id.rl_course_history:
-                if (AnalysisUtils.readLoginStatus(getActivity())){
+                if(AnalysisUtils.readLoginStatus(getActivity())){
+                    //跳转到播放记录界面
 
-                }else {
+                }else{
                     Toast.makeText(getActivity(),"您未登录，请先登录",Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.rl_setting:
-                if (AnalysisUtils.readLoginStatus(getActivity())){
-                    Intent intent=new Intent(getActivity(), ActivitySettingActivity.class);
+                if(AnalysisUtils.readLoginStatus(getActivity())){
+                    //跳转到设置界面
+                    Intent intent = new Intent(getActivity(), ActivitySettingActivity.class);
                     getActivity().startActivityForResult(intent,1);
-
-                }else {
+                }else{
                     Toast.makeText(getActivity(),"您未登录，请先登录",Toast.LENGTH_SHORT).show();
                 }
                 break;
